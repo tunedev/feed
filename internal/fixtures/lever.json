@@ -1,0 +1,25 @@
+[
+  {
+    "id": "6ed76ce8-4156-4b60-b120-403538bd66cd",
+    "text": "Administrative Business Partner",
+    "hostedUrl": "https://jobs.lever.co/palantir/6ed76ce8-4156-4b60-b120-403538bd66cd",
+    "applyUrl": "https://jobs.lever.co/palantir/6ed76ce8-4156-4b60-b120-403538bd66cd/apply",
+    "createdAt": 1786469891368,
+    "workplaceType": "hybrid",
+    "categories": {"location": "Singapore, Singapore", "commitment": "Full-time", "team": "Administrative"},
+    "description": "<div>Support the team.</div>",
+    "lists": [{"text": "What you'll do", "content": "<li>Plan</li><li>Coordinate</li>"}],
+    "additional": "<div>Equal opportunity.</div>"
+  },
+  {
+    "id": "0b1c2d3e-0000-4000-8000-000000000002",
+    "text": "Forward Deployed Engineer",
+    "hostedUrl": "https://jobs.lever.co/palantir/0b1c2d3e-0000-4000-8000-000000000002",
+    "createdAt": 1786400000000,
+    "workplaceType": "remote",
+    "categories": {"location": "London, United Kingdom"},
+    "description": "<p>Deploy.</p>",
+    "lists": [],
+    "additional": ""
+  }
+]
