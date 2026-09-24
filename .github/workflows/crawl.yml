@@ -36,8 +36,8 @@ jobs:
           remote="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git pull --rebase "$remote" "${GITHUB_REF_NAME}"
           git push "$remote" "HEAD:${GITHUB_REF_NAME}"
-      - name: Fail when every fetcher failed
+      - name: Fail when the crawl did not succeed
         if: steps.crawl.outcome == 'failure'
         run: |
-          echo "every fetcher failed; the committed status/ files say why"
+          echo "the crawl failed or no fetcher succeeded; see the step log and status/"
           exit 1

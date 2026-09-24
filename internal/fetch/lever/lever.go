@@ -4,6 +4,7 @@ package lever
 import (
 	"context"
 	"fmt"
+	"html"
 	"strings"
 	"time"
 
@@ -71,7 +72,7 @@ func (f *Fetcher) Fetch(ctx context.Context) ([]normalize.Posting, error) {
 	for _, j := range jobs {
 		p := normalize.New(f.board.Source, f.board.Slug, j.ID)
 		p.Company = f.board.Company
-		p.Title = j.Text
+		p.Title = strings.TrimSpace(j.Text)
 		p.Location = j.Categories.Location
 		p.Remote = j.WorkplaceType == "remote" || normalize.RemoteIn(j.Categories.Location)
 		p.URL = j.HostedURL
@@ -89,7 +90,7 @@ func body(j job) string {
 	var b strings.Builder
 	b.WriteString(j.Description)
 	for _, l := range j.Lists {
-		fmt.Fprintf(&b, "<h3>%s</h3><ul>%s</ul>", l.Text, l.Content)
+		fmt.Fprintf(&b, "<h3>%s</h3><ul>%s</ul>", html.EscapeString(l.Text), l.Content)
 	}
 	b.WriteString(j.Additional)
 	return b.String()

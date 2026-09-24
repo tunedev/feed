@@ -4,6 +4,7 @@ package remoteok
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/tunedev/feed/internal/boards"
@@ -53,7 +54,7 @@ func (f *Fetcher) Fetch(ctx context.Context) ([]normalize.Posting, error) {
 		}
 		p := normalize.New(f.board.Source, f.board.Slug, j.ID)
 		p.Company = j.Company
-		p.Title = j.Position
+		p.Title = strings.TrimSpace(j.Position)
 		p.Location = j.Location
 		p.Remote = true
 		p.URL = j.URL

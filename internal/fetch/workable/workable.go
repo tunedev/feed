@@ -55,7 +55,7 @@ func (f *Fetcher) Fetch(ctx context.Context) ([]normalize.Posting, error) {
 	for _, j := range r.Jobs {
 		p := normalize.New(f.board.Source, f.board.Slug, j.Shortcode)
 		p.Company = cmp.Or(r.Name, f.board.Company)
-		p.Title = j.Title
+		p.Title = strings.TrimSpace(j.Title)
 		p.Location = join(j.City, j.State, j.Country)
 		p.Remote = j.Telecommuting
 		p.URL = j.URL

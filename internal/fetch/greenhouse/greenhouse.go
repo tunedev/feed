@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"html"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/tunedev/feed/internal/boards"
@@ -55,7 +56,7 @@ func (f *Fetcher) Fetch(ctx context.Context) ([]normalize.Posting, error) {
 	for _, j := range r.Jobs {
 		p := normalize.New(f.board.Source, f.board.Slug, strconv.FormatInt(j.ID, 10))
 		p.Company = cmp.Or(j.CompanyName, f.board.Company)
-		p.Title = j.Title
+		p.Title = strings.TrimSpace(j.Title)
 		p.Location = j.Location.Name
 		p.Remote = normalize.RemoteIn(j.Location.Name)
 		p.URL = j.AbsoluteURL

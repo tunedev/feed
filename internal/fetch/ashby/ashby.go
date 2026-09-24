@@ -5,6 +5,7 @@ import (
 	"cmp"
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/tunedev/feed/internal/boards"
@@ -60,7 +61,7 @@ func (f *Fetcher) Fetch(ctx context.Context) ([]normalize.Posting, error) {
 		}
 		p := normalize.New(f.board.Source, f.board.Slug, j.ID)
 		p.Company = f.board.Company
-		p.Title = j.Title
+		p.Title = strings.TrimSpace(j.Title)
 		p.Location = j.Location
 		p.Remote = j.IsRemote
 		p.URL = j.JobURL

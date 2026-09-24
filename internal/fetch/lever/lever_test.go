@@ -59,7 +59,7 @@ func TestFetchMapsListsIntoTheBody(t *testing.T) {
 		t.Fatalf("got %d postings, want 2", len(got))
 	}
 	p := got[0]
-	wantHTML := "<div>Support the team.</div><h3>What you'll do</h3><ul><li>Plan</li><li>Coordinate</li></ul><div>Equal opportunity.</div>"
+	wantHTML := "<div>Support the team.</div><h3>What you&#39;ll do</h3><ul><li>Plan</li><li>Coordinate</li></ul><div>Equal opportunity.</div>"
 	checks := map[string][2]string{
 		"id":               {p.ID, "lever/palantir/6ed76ce8-4156-4b60-b120-403538bd66cd"},
 		"company":          {p.Company, "Palantir"},
