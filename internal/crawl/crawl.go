@@ -55,11 +55,13 @@ type Manifest struct {
 	Changes    store.Changes `json:"changes"`
 }
 
-// AllFailed reports whether every fetcher failed. A board that needs
-// rendering has not failed: it said what it needs.
+// AllFailed reports whether no fetcher succeeded: every FetcherRun carries
+// an Error, including one that only needs rendering. needs_rendering stays
+// a non-error signal in status/, but on its own it cannot make a run count
+// as having observed anything.
 func (m Manifest) AllFailed() bool {
 	for _, f := range m.Fetchers {
-		if f.Error == "" || f.RenderStatus == normalize.RenderNeedsRendering {
+		if f.Error == "" {
 			return false
 		}
 	}
@@ -103,6 +105,10 @@ func fetchOne(ctx context.Context, f Fetcher) (FetcherRun, *store.Observation) {
 	}
 	valid, rejected := validate(f.Name(), postings)
 	run.PostingCount, run.Rejected = len(valid), rejected
+	if len(postings) > 0 && len(valid) == 0 {
+		run.Error = "every posting was rejected"
+		return run, nil
+	}
 	return run, &store.Observation{Name: f.Name(), Postings: valid}
 }
 

@@ -107,6 +107,7 @@ func TestAllFailedOnlyWhenEveryFetcherFailed(t *testing.T) {
 	down := fake{name: "lever/a", err: errors.New("boom")}
 	alsoDown := fake{name: "lever/b", err: errors.New("boom")}
 	shell := fake{name: "rendered/c", rendered: true, err: crawl.ErrNeedsRendering}
+	up := fake{name: "greenhouse/up", postings: []normalize.Posting{posting("greenhouse/up", "1")}}
 
 	root := t.TempDir()
 	if m := run(t, root, down, alsoDown); !m.AllFailed() {
@@ -115,8 +116,11 @@ func TestAllFailedOnlyWhenEveryFetcherFailed(t *testing.T) {
 	if _, err := os.Stat(filepath.Join(root, "runs", "20260924T060000Z.json")); err != nil {
 		t.Errorf("no manifest after every fetcher failed: %v", err)
 	}
-	if m := run(t, t.TempDir(), down, shell); m.AllFailed() {
-		t.Error("a board that needs rendering was counted as a failure")
+	if m := run(t, t.TempDir(), down, shell); !m.AllFailed() {
+		t.Error("a run where nothing succeeded, only failures and a board needing rendering, did not report AllFailed")
+	}
+	if m := run(t, t.TempDir(), up, shell, down); m.AllFailed() {
+		t.Error("one fetcher succeeding alongside a failure and a needs-rendering board was counted as AllFailed")
 	}
 }
 
@@ -131,6 +135,25 @@ func TestRunRejectsPostingsThatCannotBeWritten(t *testing.T) {
 	}
 	if _, err := os.Stat(filepath.Join(root, "postings", "greenhouse", "other")); err == nil {
 		t.Error("a posting under another board's name was written")
+	}
+}
+
+func TestFetchOneFailsWhenEveryPostingIsRejected(t *testing.T) {
+	root := t.TempDir()
+	kept := posting("greenhouse/acme", "keep")
+	kept.FetchedAt = normalize.Stamp(t0.Add(-time.Hour))
+	if err := store.WriteJSON(root, "postings/greenhouse/acme/keep.json", kept); err != nil {
+		t.Fatal(err)
+	}
+
+	shapeChanged := posting("greenhouse/other", "1")
+	m := run(t, root, fake{name: "greenhouse/acme", postings: []normalize.Posting{shapeChanged}})
+
+	if f := m.Fetchers[0]; f.Error == "" {
+		t.Errorf("fetcher run = %+v, want an error when every posting was rejected", f)
+	}
+	if p := decode[normalize.Posting](t, filepath.Join(root, "postings", "greenhouse", "acme", "keep.json")); p.Status != "open" {
+		t.Error("a board whose fetch was entirely rejected had its posting marked removed")
 	}
 }
 
