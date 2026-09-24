@@ -1,0 +1,7 @@
+# The crawl's whole coverage. Add a board by pull request; CI loads and dry-runs this file.
+boards:
+  - {source: greenhouse, slug: gitlab}
+  - {source: lever, slug: palantir, company: Palantir}
+  - {source: ashby, slug: linear, company: Linear}
+  - {source: workable, slug: huggingface}
+  - {source: remoteok, slug: all}
