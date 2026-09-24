@@ -1,0 +1,43 @@
+name: crawl
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+concurrency:
+  group: crawl
+  cancel-in-progress: false
+permissions:
+  contents: write
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - id: crawl
+        continue-on-error: true
+        run: go run ./cmd/crawl
+      - name: Tree holds only feed documents
+        run: go test ./internal/crawl -run TestTreeHoldsOnlyFeedDocuments
+      - name: Commit and push
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "feed-bot"
+          git config user.email "feed-bot@users.noreply.github.com"
+          git add -A postings status runs
+          git diff --cached --quiet && exit 0
+          git commit -m "crawl $(date -u +%FT%TZ)"
+          remote="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull --rebase "$remote" "${GITHUB_REF_NAME}"
+          git push "$remote" "HEAD:${GITHUB_REF_NAME}"
+      - name: Fail when every fetcher failed
+        if: steps.crawl.outcome == 'failure'
+        run: |
+          echo "every fetcher failed; the committed status/ files say why"
+          exit 1
