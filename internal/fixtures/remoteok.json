@@ -1,0 +1,25 @@
+[
+  {"last_updated": 1790172002, "legal": "API terms: link back to the listing and credit the source."},
+  {
+    "slug": "remote-software-engineer-prenosis-1137427",
+    "id": "1137427",
+    "epoch": 1790172002,
+    "date": "2026-09-23T14:00:02+00:00",
+    "company": "Prenosis",
+    "position": "Software Engineer",
+    "tags": ["golang", "dev"],
+    "location": "",
+    "url": "https://remoteOK.com/remote-jobs/remote-software-engineer-prenosis-1137427",
+    "description": "<p>Prenosis is an artificial intelligence company.</p>"
+  },
+  {
+    "slug": "remote-platform-engineer-acme-1137500",
+    "id": "1137500",
+    "date": "2026-09-22T09:30:00+00:00",
+    "company": "Acme",
+    "position": "Platform Engineer",
+    "location": "Worldwide",
+    "url": "https://remoteOK.com/remote-jobs/remote-platform-engineer-acme-1137500",
+    "description": "<p>Keep the platform up.</p>"
+  }
+]
