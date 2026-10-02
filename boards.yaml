@@ -1,0 +1,13 @@
+# The crawl's whole coverage. Add a board by pull request; CI loads and dry-runs this file.
+boards:
+  - {source: greenhouse, slug: gitlab}
+  - {source: lever, slug: palantir, company: Palantir}
+  - {source: ashby, slug: linear, company: Linear}
+  - {source: workable, slug: huggingface}
+  - {source: remoteok, slug: all}
+  # Ashby's hosted board renders client-side: its static HTML holds no role anchors.
+  - source: rendered
+    slug: linear-careers
+    company: Linear
+    url: https://jobs.ashbyhq.com/linear
+    link: 'a[href*="/linear/"]'
