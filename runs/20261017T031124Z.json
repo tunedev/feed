@@ -1,0 +1,48 @@
+{
+  "started_at": "2026-10-17T03:11:24Z",
+  "finished_at": "2026-10-17T03:11:27Z",
+  "fetchers": [
+    {
+      "name": "greenhouse/gitlab",
+      "render_status": "static",
+      "posting_count": 232,
+      "rejected": 0
+    },
+    {
+      "name": "lever/palantir",
+      "render_status": "static",
+      "posting_count": 310,
+      "rejected": 0
+    },
+    {
+      "name": "ashby/linear",
+      "render_status": "static",
+      "posting_count": 29,
+      "rejected": 0
+    },
+    {
+      "name": "workable/huggingface",
+      "render_status": "static",
+      "posting_count": 6,
+      "rejected": 0
+    },
+    {
+      "name": "remoteok/all",
+      "render_status": "static",
+      "posting_count": 99,
+      "rejected": 0
+    },
+    {
+      "name": "rendered/linear-careers",
+      "render_status": "rendered",
+      "posting_count": 29,
+      "rejected": 0
+    }
+  ],
+  "changes": {
+    "written": 108,
+    "removed": 8,
+    "reopened": 0,
+    "deleted": 0
+  }
+}
